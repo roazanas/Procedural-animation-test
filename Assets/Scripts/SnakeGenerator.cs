@@ -13,7 +13,7 @@ public class SnakeGenerator : MonoBehaviour
 
     public List<GameObject> snakeParts = new List<GameObject>();
 
-    int BodyWidth(int i)
+    public int BodyWidth(int i)
     {
         switch (i)
         {
@@ -23,7 +23,7 @@ public class SnakeGenerator : MonoBehaviour
                 return 98;
             case 2:
             case 3:
-                return 108;
+                return 102;
             default:
                 float rnd = Random.Range(1, 6);
                 return (int)(((98 - i / 1.25f) / rnd) * rnd);
@@ -56,7 +56,8 @@ public class SnakeGenerator : MonoBehaviour
             SpriteRenderer sprite = newPart.GetComponent<SpriteRenderer>();
             sprite.color = new Color(sprite.color.r + Random.value / 170f,
                                      sprite.color.g + Random.value / 100f,
-                                     sprite.color.b + Random.value / 170f);
+                                     sprite.color.b + Random.value / 170f,
+                                     sprite.color.a);
 
             if (i == 0)
                 distanceConstraint.target = null;

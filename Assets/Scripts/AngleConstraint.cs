@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AngleConstraint : MonoBehaviour
 {
     public Transform target;
     public float maxAngle;
+
+    public float constrainedAngle;
 
     void LateUpdate()
     {
@@ -20,7 +23,7 @@ public class AngleConstraint : MonoBehaviour
 
         if (Mathf.Abs(angleDifference) > maxAngle)
         {
-            float constrainedAngle = maxAngle * Mathf.Sign(angleDifference);
+            constrainedAngle = maxAngle * Mathf.Sign(angleDifference);
             Vector2 constrainedDirection = Quaternion.Euler(0, 0, constrainedAngle) * targetDirection;
 
             transform.position = (Vector2)target.position + constrainedDirection * targetConstraint.maxDistance;
