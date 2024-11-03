@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SnakeGenerator : MonoBehaviour
@@ -10,16 +11,22 @@ public class SnakeGenerator : MonoBehaviour
     public float distanceBetweenParts;
     public float allowedAngleBetweenParts;
 
+    public List<GameObject> snakeParts = new List<GameObject>();
+
     int BodyWidth(int i)
     {
         switch (i)
         {
             case 0:
-                return 76;
+                return 96;
             case 1:
-                return 80;
+                return 98;
+            case 2:
+            case 3:
+                return 108;
             default:
-                return 64 - i;
+                float rnd = Random.Range(1, 6);
+                return (int)(((98 - i / 1.25f) / rnd) * rnd);
         }
     }
 
@@ -46,6 +53,11 @@ public class SnakeGenerator : MonoBehaviour
             newPart.transform.localScale = Vector3.one * bodyShape[i] / 100f;
             newPart.transform.SetParent(transform);
 
+            SpriteRenderer sprite = newPart.GetComponent<SpriteRenderer>();
+            sprite.color = new Color(sprite.color.r + Random.value / 170f,
+                                     sprite.color.g + Random.value / 100f,
+                                     sprite.color.b + Random.value / 170f);
+
             if (i == 0)
                 distanceConstraint.target = null;
             else
@@ -53,6 +65,8 @@ public class SnakeGenerator : MonoBehaviour
 
             angleConstraint.target = distanceConstraint.target;
             previousPart = newPart.transform;
+
+            snakeParts.Add(newPart);
         }
     }
 }
